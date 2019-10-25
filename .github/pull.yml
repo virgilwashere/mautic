@@ -1,0 +1,5 @@
+version: "1"
+rules:
+  - base: staging
+    upstream: mautic:staging
+    mergeMethod: hardreset
