@@ -1,4 +1,5 @@
 .*
+!.github/pull.yml
 !.gitignore
 !.htaccess
 !.gitkeep
