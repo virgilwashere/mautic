@@ -3,3 +3,4 @@ rules:
   - base: staging
     upstream: mautic:staging
     mergeMethod: hardreset
+label: ":arrow_double_up: upstream update"
