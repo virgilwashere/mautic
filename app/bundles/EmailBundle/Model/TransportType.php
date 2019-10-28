@@ -34,6 +34,7 @@ class TransportType
      * @var array
      */
     private $showHost = [
+        'mautic.transport.amazon',
         'smtp',
     ];
 
@@ -41,6 +42,7 @@ class TransportType
      * @var array
      */
     private $showPort = [
+        'mautic.transport.amazon',
         'smtp',
     ];
 

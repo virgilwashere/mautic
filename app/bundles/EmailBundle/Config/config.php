@@ -363,6 +363,7 @@ return [
                 'serviceAlias' => 'swiftmailer.mailer.transport.%s',
                 'arguments'    => [
                     '%mautic.mailer_amazon_region%',
+                    '%mautic.mailer_port%',
                     'mautic.http.connector',
                     'monolog.logger.mautic',
                     'translator',
