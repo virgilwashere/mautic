@@ -7021,16 +7021,16 @@
         },
         {
             "name": "symfony/polyfill-php55",
-            "version": "v1.7.0",
+            "version": "v1.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php55.git",
-                "reference": "168371cb3dfb10e0afde96e7c2688be02470d143"
+                "reference": "b0d838f225725e2951af1aafc784d2e5ea7b656e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php55/zipball/168371cb3dfb10e0afde96e7c2688be02470d143",
-                "reference": "168371cb3dfb10e0afde96e7c2688be02470d143",
+                "url": "https://api.github.com/repos/symfony/polyfill-php55/zipball/b0d838f225725e2951af1aafc784d2e5ea7b656e",
+                "reference": "b0d838f225725e2951af1aafc784d2e5ea7b656e",
                 "shasum": ""
             },
             "require": {
@@ -7040,7 +7040,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.7-dev"
+                    "dev-master": "1.13-dev"
                 }
             },
             "autoload": {
@@ -7073,7 +7073,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2018-01-30T19:27:44+00:00"
+            "time": "2019-11-27T13:56:44+00:00"
         },
         {
             "name": "symfony/polyfill-php56",
@@ -8327,7 +8327,7 @@
             ],
             "authors": [
                 {
-                    "name": "William Durand",
+                    "name": "William DURAND",
                     "email": "william.durand1@gmail.com"
                 }
             ],
