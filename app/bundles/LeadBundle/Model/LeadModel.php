@@ -74,7 +74,7 @@ class LeadModel extends FormModel
     const CHANNEL_FEATURE = 'contact_preference';
 
     /**
-     * @var null|\Symfony\Component\HttpFoundation\Request
+     * @var \Symfony\Component\HttpFoundation\Request|null
      */
     protected $request;
 
@@ -422,11 +422,11 @@ class LeadModel extends FormModel
      *
      * @param $id
      *
-     * @return null|Lead
+     * @return Lead|null
      */
     public function getEntity($id = null)
     {
-        if ($id === null) {
+        if (null === $id) {
             return new Lead();
         }
 
@@ -861,7 +861,7 @@ class LeadModel extends FormModel
         foreach ($fields as $field) {
             if ($field instanceof LeadField) {
                 $alias = $field->getAlias();
-                if ($field->isPublished() and $field->getObject() === 'Lead') {
+                if ($field->isPublished() and 'Lead' === $field->getObject()) {
                     $group                                = $field->getGroup();
                     $array[$group][$alias]['id']          = $field->getId();
                     $array[$group][$alias]['group']       = $group;
@@ -872,7 +872,7 @@ class LeadModel extends FormModel
                 }
             } else {
                 $alias = $field['alias'];
-                if ($field['isPublished'] and $field['object'] === 'lead') {
+                if ($field['isPublished'] and 'lead' === $field['object']) {
                     $group                                = $field['group'];
                     $array[$group][$alias]['id']          = $field['id'];
                     $array[$group][$alias]['group']       = $group;
@@ -1391,7 +1391,7 @@ class LeadModel extends FormModel
 
         foreach ($fields as $leadField => $importField) {
             // Prevent overwriting existing data with empty data
-            if (array_key_exists($importField, $data) && !is_null($data[$importField]) && $data[$importField] != '') {
+            if (array_key_exists($importField, $data) && !is_null($data[$importField]) && '' != $data[$importField]) {
                 $fieldData[$leadField] = InputHelper::_($data[$importField], 'string');
             }
         }
@@ -1426,7 +1426,7 @@ class LeadModel extends FormModel
         if (!empty($fields['createdByUser']) && !empty($data[$fields['createdByUser']])) {
             $userRepo      = $this->em->getRepository('MauticUserBundle:User');
             $createdByUser = $userRepo->findByIdentifier($data[$fields['createdByUser']]);
-            if ($createdByUser !== null) {
+            if (null !== $createdByUser) {
                 $lead->setCreatedBy($createdByUser);
             }
         }
@@ -1435,7 +1435,7 @@ class LeadModel extends FormModel
         if (!empty($fields['modifiedByUser']) && !empty($data[$fields['modifiedByUser']])) {
             $userRepo       = $this->em->getRepository('MauticUserBundle:User');
             $modifiedByUser = $userRepo->findByIdentifier($data[$fields['modifiedByUser']]);
-            if ($modifiedByUser !== null) {
+            if (null !== $modifiedByUser) {
                 $lead->setModifiedBy($modifiedByUser);
             }
         }
@@ -1454,7 +1454,7 @@ class LeadModel extends FormModel
         }
         unset($fieldData['ip']);
 
-        if (!empty($fields['points']) && !empty($data[$fields['points']]) && $lead->getId() === null) {
+        if (!empty($fields['points']) && !empty($data[$fields['points']]) && null === $lead->getId()) {
             // Add points only for new leads
             $lead->setPoints($data[$fields['points']]);
 
@@ -1540,11 +1540,11 @@ class LeadModel extends FormModel
         }
         unset($fieldData['ownerusername']);
 
-        if ($owner !== null) {
+        if (null !== $owner) {
             $lead->setOwner($this->em->getReference('MauticUserBundle:User', $owner));
         }
 
-        if ($tags !== null) {
+        if (null !== $tags) {
             $this->modifyTags($lead, $tags, null, false);
         }
 
@@ -1629,11 +1629,11 @@ class LeadModel extends FormModel
             ));
             $this->saveEntity($lead);
 
-            if ($list !== null) {
+            if (null !== $list) {
                 $this->addToLists($lead, [$list]);
             }
 
-            if ($company !== null) {
+            if (null !== $company) {
                 $this->companyModel->addLeadToCompany($company, $lead);
             }
 
@@ -1839,7 +1839,7 @@ class LeadModel extends FormModel
         // See which tags already exist
         $foundTags = $this->getTagRepository()->getTagsByName($tags);
         foreach ($tags as $tag) {
-            if (strpos($tag, '-') === 0) {
+            if (0 === strpos($tag, '-')) {
                 // Tag to be removed
                 $tag = substr($tag, 1);
 
@@ -1907,7 +1907,7 @@ class LeadModel extends FormModel
         $leadCompanies = $this->companyModel->getCompanyLeadRepository()->getCompaniesByLeadId($lead->getId());
 
         foreach ($leadCompanies as $key => $leadCompany) {
-            if (array_search($leadCompany['company_id'], $companies) === false) {
+            if (false === array_search($leadCompany['company_id'], $companies)) {
                 $this->companyModel->removeLeadFromCompany([$leadCompany['company_id']], $lead);
             }
         }
@@ -1969,7 +1969,7 @@ class LeadModel extends FormModel
             'expression' => 'isNotNull',
         ];
 
-        if ($flag == 'top') {
+        if ('top' == $flag) {
             $topLists = $this->leadListModel->getTopLists(6, $dateFrom, $dateTo);
             if ($topLists) {
                 foreach ($topLists as $list) {
@@ -1981,7 +1981,7 @@ class LeadModel extends FormModel
                     $chart->setDataset($list['name'].': '.$allLeadsT, $all);
                 }
             }
-        } elseif ($flag == 'topIdentifiedVsAnonymous') {
+        } elseif ('topIdentifiedVsAnonymous' == $flag) {
             $topLists = $this->leadListModel->getTopLists(3, $dateFrom, $dateTo);
             if ($topLists) {
                 foreach ($topLists as $list) {
@@ -1999,13 +1999,13 @@ class LeadModel extends FormModel
                     $chart->setDataset($list['name'].': '.$anonymousT, $anonymous);
                 }
             }
-        } elseif ($flag == 'identified') {
+        } elseif ('identified' == $flag) {
             $identified = $query->fetchTimeData('leads', 'date_added', $identifiedFilter);
             $chart->setDataset($identifiedT, $identified);
-        } elseif ($flag == 'anonymous') {
+        } elseif ('anonymous' == $flag) {
             $anonymous = $query->fetchTimeData('leads', 'date_added', $anonymousFilter);
             $chart->setDataset($anonymousT, $anonymous);
-        } elseif ($flag == 'identifiedVsAnonymous') {
+        } elseif ('identifiedVsAnonymous' == $flag) {
             $identified = $query->fetchTimeData('leads', 'date_added', $identifiedFilter);
             $anonymous  = $query->fetchTimeData('leads', 'date_added', $anonymousFilter);
             $chart->setDataset($identifiedT, $identified);
@@ -2279,7 +2279,7 @@ class LeadModel extends FormModel
         }
 
         // company does not exist anymore
-        if ($company === null) {
+        if (null === $company) {
             return false;
         }
 
@@ -2307,7 +2307,7 @@ class LeadModel extends FormModel
 
         $channels = [];
         foreach ($allChannels as $channel) {
-            if ($this->isContactable($lead, $channel) === DNC::IS_CONTACTABLE) {
+            if (DNC::IS_CONTACTABLE === $this->isContactable($lead, $channel)) {
                 $channels[$channel] = $channel;
             }
         }
@@ -2328,7 +2328,7 @@ class LeadModel extends FormModel
 
         $channels = [];
         foreach ($allChannels as $channel) {
-            if ($this->isContactable($lead, $channel) !== DNC::IS_CONTACTABLE) {
+            if (DNC::IS_CONTACTABLE !== $this->isContactable($lead, $channel)) {
                 $channels[$channel] = $channel;
             }
         }
@@ -2475,7 +2475,7 @@ class LeadModel extends FormModel
         if ($lead->isNewlyCreated() || $lead->wasAnonymous()) {
             // Only store an entry once for created and once for identified, not every time the lead is saved
             $manipulator = $lead->getManipulator();
-            if ($manipulator !== null) {
+            if (null !== $manipulator) {
                 $manipulationLog = new LeadEventLog();
                 $manipulationLog->setLead($lead)
                     ->setBundle($manipulator->getBundleName())
@@ -2556,7 +2556,7 @@ class LeadModel extends FormModel
         }
 
         foreach ($dncEntries as $dnc) {
-            if ($dnc->getReason() !== DNC::IS_CONTACTABLE) {
+            if (DNC::IS_CONTACTABLE !== $dnc->getReason()) {
                 return $dnc->getReason();
             }
         }
@@ -2615,7 +2615,7 @@ class LeadModel extends FormModel
         $isContactable = ($checkCurrentStatus) ? $this->isContactable($lead, $channel) : DNC::IS_CONTACTABLE;
 
         // If they don't have a DNC entry yet
-        if ($isContactable === DNC::IS_CONTACTABLE) {
+        if (DNC::IS_CONTACTABLE === $isContactable) {
             $dnc = new DNC();
 
             if (is_array($channel)) {
@@ -2645,7 +2645,7 @@ class LeadModel extends FormModel
             /** @var DNC $dnc */
             foreach ($lead->getDoNotContact() as $dnc) {
                 // Only update if the contact did not unsubscribe themselves
-                if (!$override && $dnc->getReason() !== DNC::UNSUBSCRIBED) {
+                if (!$override && DNC::UNSUBSCRIBED !== $dnc->getReason()) {
                     $override = true;
                 }
                 if ($dnc->getChannel() === $channel && $override) {
@@ -2705,7 +2705,7 @@ class LeadModel extends FormModel
      *
      * @param bool|false $returnTracking
      *
-     * @return null|Lead|array
+     * @return Lead|array|null
      */
     public function getCurrentLead($returnTracking = false)
     {

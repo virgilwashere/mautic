@@ -93,7 +93,7 @@ class CookieHelperTest extends PHPUnit_Framework_TestCase
         $headers = xdebug_get_headers();
         // see http://tools.ietf.org/html/rfc6265#section-4.1.1
         foreach ($headers as $header) {
-            if (strpos($header, 'Set-Cookie: ') === 0) {
+            if (0 === strpos($header, 'Set-Cookie: ')) {
                 $value = str_replace('&', urlencode('&'), substr($header, 12));
                 parse_str(current(explode(';', $value, 1)), $pair);
                 $cookies = array_merge_recursive($cookies, $pair);

@@ -61,7 +61,7 @@ class CustomFieldValueHelper
         $value      = ArrayHelper::getValue('value', $field, '');
         $type       = ArrayHelper::getValue('type', $field);
         $properties = ArrayHelper::getValue('properties', $field);
-        if ($value !== '' && $type && $properties) {
+        if ('' !== $value && $type && $properties) {
             if (!is_array($properties)) {
                 $properties = Serializer::decode($properties);
             }

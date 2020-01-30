@@ -536,7 +536,7 @@ class ZohoIntegration extends CrmAbstractIntegration
                     }
 
                     // prepare next loop
-                    $oparams['page'] += 1;
+                    ++$oparams['page'];
                 }
 
                 if (isset($params['output']) && $params['output']->getVerbosity() < OutputInterface::VERBOSITY_VERBOSE) {
@@ -610,7 +610,7 @@ class ZohoIntegration extends CrmAbstractIntegration
                     }
 
                     // prepare next loop
-                    $oparams['page'] += 1;
+                    ++$oparams['page'];
                 }
 
                 if (isset($params['output']) && $params['output']->getVerbosity() < OutputInterface::VERBOSITY_VERBOSE) {
@@ -665,7 +665,7 @@ class ZohoIntegration extends CrmAbstractIntegration
     {
         $authType = $this->getAuthenticationType();
 
-        if ($authType == 'oauth2') {
+        if ('oauth2' == $authType) {
             $callback    = $this->getAuthCallbackUrl();
             $clientIdKey = $this->getClientIdKey();
             $state       = $this->getAuthLoginState();
@@ -701,7 +701,7 @@ class ZohoIntegration extends CrmAbstractIntegration
      */
     public function appendToForm(&$builder, $data, $formArea)
     {
-        if ($formArea == 'features') {
+        if ('features' == $formArea) {
             $builder->add(
                 'updateBlanks',
                 'choice',
@@ -718,7 +718,7 @@ class ZohoIntegration extends CrmAbstractIntegration
                 ]
             );
         }
-        if ($formArea === 'keys') {
+        if ('keys' === $formArea) {
             $builder->add(
                 'datacenter',
                 'choice',
@@ -821,12 +821,12 @@ class ZohoIntegration extends CrmAbstractIntegration
                         /** @var array $opts */
                         $opts = $leadObject['fields'];
                         foreach ($opts as $field) {
-                            if ($field['read_only'] == true) {
+                            if (true == $field['read_only']) {
                                 continue;
                             }
 
                             $is_required = false;
-                            if ($field['system_mandatory'] == true) {
+                            if (true == $field['system_mandatory']) {
                                 $is_required = true;
                             }
 
@@ -847,7 +847,7 @@ class ZohoIntegration extends CrmAbstractIntegration
             $this->logIntegrationError($exception);
 
             if (!$silenceExceptions) {
-                if (strpos($exception->getMessage(), 'Invalid Ticket Id') !== false) {
+                if (false !== strpos($exception->getMessage(), 'Invalid Ticket Id')) {
                     // Use a bit more friendly message
                     $exception = new ApiErrorException('There was an issue with communicating with Zoho. Please try to reauthorize.');
                 }
@@ -1168,12 +1168,12 @@ class ZohoIntegration extends CrmAbstractIntegration
     public function getBlankFieldsToUpdate($fields, $sfRecord, $objectFields, $config)
     {
         //check if update blank fields is selected
-        if (isset($config['updateBlanks']) && isset($config['updateBlanks'][0]) && $config['updateBlanks'][0] == 'updateBlanks') {
+        if (isset($config['updateBlanks']) && isset($config['updateBlanks'][0]) && 'updateBlanks' == $config['updateBlanks'][0]) {
             foreach ($sfRecord as $fieldName => $sfField) {
                 if (array_key_exists($fieldName, $objectFields['required']['fields'])) {
                     continue; // this will be treated differently
                 }
-                if ($sfField === 'null' && array_key_exists($fieldName, $objectFields['create']) && !array_key_exists($fieldName, $fields)) {
+                if ('null' === $sfField && array_key_exists($fieldName, $objectFields['create']) && !array_key_exists($fieldName, $fields)) {
                     //map to mautic field
                     $fields[$fieldName] = $objectFields['create'][$fieldName];
                 }
@@ -1214,7 +1214,7 @@ class ZohoIntegration extends CrmAbstractIntegration
         foreach ($rows as $key => $row) {
             $mauticId = $mapper->getContactIdByKey($key);
 
-            if ($row['code'] === 'SUCCESS' && $createIntegrationEntity) {
+            if ('SUCCESS' === $row['code'] && $createIntegrationEntity) {
                 $zohoId = $row['details']['id'];
                 $this->logger->debug('CREATE INTEGRATION ENTITY: '.$zohoId);
                 $integrationId = $this->getIntegrationEntityRepository()->getIntegrationsEntityId(
@@ -1269,8 +1269,8 @@ class ZohoIntegration extends CrmAbstractIntegration
     }
 
     /**
-     * @param   $data
-     * @param   $fields
+     * @param $data
+     * @param $fields
      *
      * @return array
      */
