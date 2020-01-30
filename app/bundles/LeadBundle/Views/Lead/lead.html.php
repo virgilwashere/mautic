@@ -343,7 +343,7 @@ $view['slots']->set(
                         </a>
                     </li>
                 <?php endif; ?>
-                
+
                 <?php echo $view['content']->getCustomContent('tabs', $mauticTemplateVars); ?>
             </ul>
             <!--/ tabs controls -->
@@ -413,7 +413,7 @@ $view['slots']->set(
             <!-- custom content -->
             <?php echo $view['content']->getCustomContent('tabs.content', $mauticTemplateVars); ?>
             <!-- end: custom content -->
-            
+
             <!-- #place-container -->
             <?php if ($places): ?>
                 <div class="tab-pane fade bdr-w-0" id="place-container">
@@ -590,9 +590,9 @@ $view['slots']->set(
             <?php foreach ($companies as $key => $company): ?>
             <h5 class="pull-left mt-xs mr-xs">
                 <span class="label label-success">
-                    <i id="company-<?php echo $company['id']; ?>" 
-                        class="fa fa-check <?php echo (1 == $company['is_primary']) ? 'primary' : ''; ?>" 
-                        onclick="Mautic.setAsPrimaryCompany(<?php echo $company['id']; ?>, <?php echo $lead->getId(); ?>);" 
+                    <i id="company-<?php echo $company['id']; ?>"
+                        class="fa fa-check <?php echo (1 == $company['is_primary']) ? 'primary' : ''; ?>"
+                        onclick="Mautic.setAsPrimaryCompany(<?php echo $company['id']; ?>, <?php echo $lead->getId(); ?>);"
                         title="<?php echo $view['translator']->trans('mautic.lead.company.set.primary'); ?>">
                     </i>
                     <a href="<?php echo $view['router']->path('mautic_company_action', ['objectAction' => 'edit', 'objectId' => $company['id']]); ?>" style="color: white;">
