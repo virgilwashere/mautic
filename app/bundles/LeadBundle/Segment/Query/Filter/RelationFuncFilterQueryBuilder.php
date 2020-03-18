@@ -71,7 +71,7 @@ class RelationFuncFilterQueryBuilder extends BaseFilterQueryBuilder
             if ($filterAggr) {
                 // No join needed, it is placed in exist/not exists
             } else {
-                if ($filter->getTable() == 'companies') {
+                if ('companies' == $filter->getTable()) {
                     $relTable = $this->generateRandomParameterName();
                     $queryBuilder->leftJoin('l', MAUTIC_TABLE_PREFIX.'companies_leads', $relTable, $relTable.'.lead_id = l.id');
                     $queryBuilder->leftJoin($relTable, $filter->getTable(), $tableAlias, $tableAlias.'.id = '.$relTable.'.company_id');
@@ -104,7 +104,7 @@ class RelationFuncFilterQueryBuilder extends BaseFilterQueryBuilder
             default:
                 if ($filterAggr) {
                     if (!is_null($filter)) {
-                        if ($filterAggr === 'sum') {
+                        if ('sum' === $filterAggr) {
                             $expressionArg = $queryBuilder->expr()->func('COALESCE',
                                 $queryBuilder->expr()->func('SUM', $tableAlias.'.'.$filter->getField()),
                                 0

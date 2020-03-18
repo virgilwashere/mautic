@@ -90,7 +90,7 @@ class LanguageHelper
         $zipper  = new \ZipArchive();
         $archive = $zipper->open($packagePath);
 
-        if ($archive !== true) {
+        if (true !== $archive) {
             // Get the exact error
             switch ($archive) {
                 case \ZipArchive::ER_EXISTS:
@@ -200,7 +200,7 @@ class LanguageHelper
                 ];
         }
 
-        if ($data->code != 200) {
+        if (200 != $data->code) {
             // Log the error
             $this->logger->addError(
                 sprintf(
@@ -281,7 +281,7 @@ class LanguageHelper
                     '%url%' => $langUrl,
                 ],
             ];
-        } elseif ($data->code != 200) {
+        } elseif (200 != $data->code) {
             return [
                 'error'   => true,
                 'message' => 'mautic.core.language.helper.error.on.language.server.side',
