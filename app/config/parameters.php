@@ -32,9 +32,9 @@ $extractLocales = function ($dir) use (&$locales) {
     $locale = $dir->getFilename();
 
     // Check config
-    $configFile = $dir->getRealpath().'/config.php';
+    $configFile = $dir->getRealpath().'/config.json';
     if (file_exists($configFile)) {
-        $config           = include $configFile;
+        $config           = json_decode(file_get_contents($configFile), true);
         $locales[$locale] = (!empty($config['name'])) ? $config['name'] : $locale;
     }
 };
@@ -103,13 +103,13 @@ if (isset($mauticParams['site_url'])) {
         if (!empty($parts['path'])) {
             // Check and remove trailing slash to prevent double // in Symfony cli generated URLs
             $path = $parts['path'];
-            if (substr($path, -1) == '/') {
+            if ('/' == substr($path, -1)) {
                 $path = substr($path, 0, -1);
             }
         }
 
         $scheme           = (!empty($parts['scheme']) ? $parts['scheme'] : 'http');
-        $portContainerKey = ($scheme === 'http') ? 'request_listener.http_port' : 'request_listener.https_port';
+        $portContainerKey = ('http' === $scheme) ? 'request_listener.http_port' : 'request_listener.https_port';
 
         $container->setParameter('router.request_context.host', $parts['host']);
         $container->setParameter('router.request_context.scheme', $scheme);
