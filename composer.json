@@ -21,7 +21,7 @@
         "symfony/console": "~3.4.0",
         "symfony/debug": "~3.4.0",
         "symfony/form": "~3.4.0",
-        "symfony/intl": "~3.4.0",
+        "symfony/intl": "~4.2.7",
         "symfony/options-resolver": "~3.4.0",
         "symfony/process": "~3.4.0",
         "symfony/security": "~3.4.0",
