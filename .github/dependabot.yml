@@ -1,0 +1,29 @@
+version: 2
+updates:
+- package-ecosystem: composer
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "11:00"
+    timezone: Australia/Brisbane
+  open-pull-requests-limit: 10
+  target-branch: staging
+  ignore:
+  - dependency-name: ip2location/ip2location-php
+    versions:
+    - 8.3.0
+    - 9.0.0
+  - dependency-name: symfony/http-client
+    versions:
+    - 5.2.2
+    - 5.2.3
+    - 5.2.4
+  - dependency-name: symfony/polyfill-mbstring
+    versions:
+    - 1.22.0
+  - dependency-name: sendgrid/sendgrid
+    versions:
+    - 7.9.1
+  - dependency-name: doctrine/data-fixtures
+    versions:
+    - 1.4.4
